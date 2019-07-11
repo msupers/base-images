@@ -51,6 +51,7 @@ RUN rpm --rebuilddb \
 	&& rm -rf /{root,tmp,var/cache/{ldconfig,yum}}/* \
 	&& > /etc/sysconfig/i18n
 
+COPY supervisord.conf /etc/
 # ------------------------------------------------------------------------------
 # Provisioning
 # - Networking
