@@ -57,20 +57,5 @@ RUN rpm --rebuilddb \
 # - Configure SSH defaults for non-root public key authentication
 # - Enable the wheel sudoers group
 # ------------------------------------------------------------------------------
-RUN  echo "NETWORKING=yes" \
-		> /etc/sysconfig/network \
-	&& sed -i \
-		-e 's~^PasswordAuthentication yes~PasswordAuthentication no~g' \
-		-e 's~^#PermitRootLogin yes~PermitRootLogin no~g' \
-		-e 's~^#UseDNS yes~UseDNS no~g' \
-		-e 's~^\(.*\)/usr/libexec/openssh/sftp-server$~\1internal-sftp~g' \
-		/etc/ssh/sshd_config \
-	&& sed -i \
-		-e 's~^# %wheel\tALL=(ALL)\tALL~%wheel\tALL=(ALL) ALL~g' \
-		-e 's~\(.*\) requiretty$~#\1requiretty~' \
-		/etc/sudoers \
-	&& chmod 644 \
-		/etc/{supervisord.conf,supervisord.d/{20-sshd-bootstrap,50-sshd-wrapper}.conf} 
-
 
 CMD ["/usr/bin/supervisord", "--configuration=/etc/supervisord.conf"] 
