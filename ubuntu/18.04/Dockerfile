@@ -1,13 +1,8 @@
-FROM centos:7
-#FROM centos:7.6.1810
-# 安装基础软件
-RUN yum clean all &&\
-	yum install setuptools -y
-
+FROM ubuntu:18.04
+RUN apt-get update && apt-get install python python-setuptools vim net-tools ca-certificates curl git gcc make openssl libssl-dev iptables  -y
 COPY meld3-1.0.2 /root/meld3-1.0.2
 WORKDIR /root/meld3-1.0.2 
 RUN mkdir /etc/supervisord.d
-COPY sshd.conf /etc/supervisord.d/
 RUN python setup.py install
 COPY supervisor-4.0.3 /root/supervisor-4.0.3
 WORKDIR /root/supervisor-4.0.3 
