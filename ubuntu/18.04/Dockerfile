@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 RUN apt-get update && \
-    apt-get install python python-setuptools && \
+    apt-get install python python-setuptools  \
     vim net-tools ca-certificates curl git gcc wget make openssl libssl-dev iptables  -y
 COPY meld3-1.0.2 /root/meld3-1.0.2
 WORKDIR /root/meld3-1.0.2 
