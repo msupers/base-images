@@ -7,7 +7,7 @@ FROM centos:7.6.1810
 # - Install supervisor-stdout to allow output of services started by
 #  supervisord to be easily inspected with "docker logs".
 # ------------------------------------------------------------------------------
-RUN  yum -y install
+RUN  yum -y install \
                 epel-release \
 		openssh-clients-7.4p1-16.el7 \
 		openssh-server-7.4p1-16.el7 \
