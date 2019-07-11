@@ -53,17 +53,11 @@ RUN rpm --rebuilddb \
 
 # ------------------------------------------------------------------------------
 # Provisioning
-# - UTC Timezone
 # - Networking
 # - Configure SSH defaults for non-root public key authentication
 # - Enable the wheel sudoers group
-# - Replace placeholders with values in systemd service unit template
-# - Set permissions
 # ------------------------------------------------------------------------------
-RUN ln -sf \
-		/usr/share/zoneinfo/UTC \
-		/etc/localtime \
-	&& echo "NETWORKING=yes" \
+RUN  echo "NETWORKING=yes" \
 		> /etc/sysconfig/network \
 	&& sed -i \
 		-e 's~^PasswordAuthentication yes~PasswordAuthentication no~g' \
@@ -75,34 +69,8 @@ RUN ln -sf \
 		-e 's~^# %wheel\tALL=(ALL)\tALL~%wheel\tALL=(ALL) ALL~g' \
 		-e 's~\(.*\) requiretty$~#\1requiretty~' \
 		/etc/sudoers \
-	&& sed -i \
-		-e "s~{{RELEASE_VERSION}}~${RELEASE_VERSION}~g" \
-		/etc/systemd/system/centos-ssh@.service \
 	&& chmod 644 \
-		/etc/{supervisord.conf,supervisord.d/{20-sshd-bootstrap,50-sshd-wrapper}.conf} \
-	&& chmod 700 \
-		/usr/{bin/healthcheck,sbin/{scmi,sshd-{bootstrap,wrapper},system-{timezone,timezone-wrapper}}}
+		/etc/{supervisord.conf,supervisord.d/{20-sshd-bootstrap,50-sshd-wrapper}.conf} 
 
 
-# ------------------------------------------------------------------------------
-# Set default environment variables
-# ------------------------------------------------------------------------------
-ENV \
-	ENABLE_SSHD_BOOTSTRAP="true" \
-	ENABLE_SSHD_WRAPPER="true" \
-	ENABLE_SUPERVISOR_STDOUT="false" \
-	SSH_AUTHORIZED_KEYS="" \
-	SSH_CHROOT_DIRECTORY="%h" \
-	SSH_INHERIT_ENVIRONMENT="false" \
-	SSH_PASSWORD_AUTHENTICATION="false" \
-	SSH_SUDO="ALL=(ALL) ALL" \
-	SSH_USER="app-admin" \
-	SSH_USER_FORCE_SFTP="false" \
-	SSH_USER_HOME="/home/%u" \
-	SSH_USER_ID="500:500" \
-	SSH_USER_PASSWORD="" \
-	SSH_USER_PASSWORD_HASHED="false" \
-	SSH_USER_PRIVATE_KEY="" \
-	SSH_USER_SHELL="/bin/bash" \
-	SYSTEM_TIMEZONE="UTC"
 CMD ["/usr/bin/supervisord", "--configuration=/etc/supervisord.conf"] 
