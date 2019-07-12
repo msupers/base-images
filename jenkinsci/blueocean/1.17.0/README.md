@@ -2,7 +2,9 @@
 
 ## images name 
 
+```bash
 registry.cn-beijing.aliyuncs.com/hobbits/jenkins-blueocean:1.17.0
+```
 
 ## docker  pull
 
