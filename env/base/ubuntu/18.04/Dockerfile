@@ -13,8 +13,7 @@ ENV LANG C.UTF-8
 # add a simple script that can auto-detect the appropriate JAVA_HOME value
 # based on whether the JDK or only the JRE is installed
 
-RUN add-apt-repository ppa:openjdk-r/ppa \
-	&& apt-get update \
+RUN apt-get update \
 	&& apt-get install -y openjdk-8-jdk \
 	&& apt-get install ca-certificates-java \
 	&& update-ca-certificates -f
