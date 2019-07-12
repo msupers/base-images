@@ -1,7 +1,13 @@
 # User Guide
 
-## docker pull
+## images name 
 
-## docker  run
+registry.cn-beijing.aliyuncs.com/hobbits/jenkins-blueocean:1.17.0
 
-docker run -p 8080:8080 jenkinsci/blueocean
+## docker  pull
+
+docker pull registry.cn-beijing.aliyuncs.com/hobbits/jenkins-blueocean:1.17.0
+
+## docker run 
+
+docker run -p 8080:8080 registry.cn-beijing.aliyuncs.com/hobbits/jenkins-blueocean:1.17.0
